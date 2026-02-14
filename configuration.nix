@@ -66,6 +66,16 @@ in
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
+  # Firewall & SSH
+  networking.firewall.allowedTCPPorts = [ 22 ];
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = true;
+    };
+  };
+
   time.timeZone = "America/Edmonton";
   i18n.defaultLocale = "en_CA.UTF-8";
 
@@ -91,7 +101,13 @@ in
     shell = pkgs.zsh; 
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      # This uses wttr.in - much better for Nobleford specifically
+      weather = "curl -s 'wttr.in/Nobleford,Alberta?m'"; 
+    };
+  };
 
   # Fonts
   fonts.packages = with pkgs; [
@@ -139,7 +155,6 @@ in
     # ZSH RICE
     programs.zsh = {
       enable = true;
-      # Fixed the renamed option for 25.11
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       oh-my-zsh = {
@@ -149,19 +164,6 @@ in
       };
     };
   };
-
-# Enable the OpenSSH daemon.
-services.openssh = {
-  enable = true;
-  settings = {
-    PermitRootLogin = "no";        # Recommended for security
-    PasswordAuthentication = true; # Set to false if you only want to use SSH keys
-  };
-};
-
-# Open the port in the firewall
-networking.firewall.allowedTCPPorts = [ 22 ];
-
 
   programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -179,7 +181,11 @@ networking.firewall.allowedTCPPorts = [ 22 ];
     btop
     cava
     firefox 
-    kdePackages.konsole # Fixed the package name for KDE Plasma 6
+    kdePackages.konsole
+    pipes-rs
+    cbonsai
+    cmatrix
+    tenki
   ];
 
   system.stateVersion = "25.11"; 
