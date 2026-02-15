@@ -104,8 +104,7 @@ in
   programs.zsh = {
     enable = true;
     shellAliases = {
-      # This uses wttr.in - much better for Nobleford specifically
-      weather = "curl -s 'wttr.in/Nobleford,Alberta?m'"; 
+      weather = "curl -s 'wttr.in/Nobleford,Alberta?m'";
     };
   };
 
@@ -122,7 +121,7 @@ in
 
   # HOME MANAGER USER SETTINGS
   home-manager.users.nekef = { pkgs, ... }: {
-    home.stateVersion = "25.11"; 
+    home.stateVersion = "25.11";
     home.enableNixpkgsReleaseCheck = false;
 
     # BTOP RICE
@@ -169,6 +168,9 @@ in
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    gcc
+    gnumake
+    linuxHeaders
     vim
     wget
     curl
